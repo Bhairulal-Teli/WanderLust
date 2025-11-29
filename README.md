@@ -1,0 +1,3 @@
+#WanderLust
+
+WanderLust is a full-stack web application that enables users to explore, create, update, and manage property listings with secure user authentication and authorization. The application follows a RESTful architecture, uses MongoDB for persistent data storage, and provides role-based access to ensure only authorized users can modify their listings and reviews. A responsive interface built with Bootstrap CSS ensures usability across devices, and the project is deployed on a cloud platform for real-world accessibility.
