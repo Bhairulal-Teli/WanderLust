@@ -16,7 +16,7 @@ module.exports.showListing = async (req, res) => {
     .populate("owner");
   if (!listing) {
     req.flash("error", "Listing you requested for does not exist!");
-    res.redirect("/listings");
+    return res.redirect("/listings");
   }
   res.render("listings/show.ejs", { listing });
 };
@@ -38,7 +38,7 @@ module.exports.renderEditForm = async (req, res) => {
   let listing = await Listing.findById(id);
   if (!listing) {
     req.flash("error", "Listing you trying to edit for does not exist!");
-    res.redirect("/listings");
+    return res.redirect("/listings");
   }
   imageUrl = listing.image.url;
   imageUrl = imageUrl.replace("/upload", "/upload/w_250,h_160");
@@ -67,20 +67,21 @@ module.exports.filter = async (req, res, next) => {
   let allListings = await Listing.find({ category: { $all: [id] } });
   if (allListings.length != 0) {
     res.locals.success = `Listings Filtered by ${id}!`;
-    res.render("listings/index.ejs", { allListings });
+    return res.render("listings/index.ejs", { allListings });
   } else {
     req.flash("error", `There is no any Listing for ${id}!`);
-    res.redirect("/listings");
+    return res.redirect("/listings");
   }
 };
 
 module.exports.search = async (req, res) => {
-  if (input == "" || input == " " || !input || input == undefined) {
+  let input = req.query.q.trim().replace(/\s+/g, " ");
+
+  if (!input || input.trim() === "") {
     req.flash("error", "Please enter search query!");
-    res.redirect("/listings");
+    return res.redirect("/listings");
   }
 
-  let input = req.query.q.trim().replace(/\s+/g, " ");
   let data = input.split("");
   let element = "";
   let flag = false;
@@ -149,7 +150,7 @@ module.exports.search = async (req, res) => {
   }
   if (allListings.length == 0) {
     req.flash("error", "No listings found based on your search!");
-    res.redirect("/listings");
+    return res.redirect("/listings");
   }
 };
 
