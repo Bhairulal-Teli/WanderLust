@@ -509,6 +509,17 @@ body {
   }
 }
 
+/* Hide search text below 400px */
+@media (max-width: 399px) {
+  .search-text {
+    display: none;
+  }
+
+  .search-btn i {
+    margin-right: 0;
+  }
+}
+
 #filters-container {
   overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
